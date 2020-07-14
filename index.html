@@ -314,7 +314,7 @@
            vertical-align: middle;
            margin-right: 10px;
          }
-         .item2{
+         .item2, .item4{
            display: inline-block;
            margin-left: 8px;
            font-size: 12px;
@@ -417,6 +417,14 @@
            .item2{
              font-size:10px;
              margin-left:2px;
+           }
+           .item4{
+             font-size:10px;
+             margin-left:-2px;
+             margin-right: -2px;
+           }
+           #biomeLegend{
+             margin-left: -5px;
            }
            h1{
              font-size:16px;
@@ -611,13 +619,13 @@
               </div>
               <div class='row itemWrapper'>
                  <h2 class="legendTitleAll"> Biomas </h2>
-                 <div class="">
+                 <div id="biomeLegend" class="">
                     <img class='item3' src="./img/legend5.svg" /img>
-                    <p class='item2'>Amazon</p>
+                    <p class='item4'>Amazonas</p>
                     <img class='item3' src="./img/legend6.svg" /img>
-                    <p class='item2'>Cerrado</p>
+                    <p class='item4'>Cerrado</p>
                     <img class='item3' src="./img/legend7.svg" /img>
-                    <p class='item2'>Gran Chaco</p>
+                    <p class='item4'>Gran Chaco</p>
                  </div>
               </div>
             </div>
@@ -1042,8 +1050,8 @@
 
              var maxInBillions = max/1000;
 
-             $("#minCircleVal").html(`${min} US$milhão`);
-             $("#maxCircleVal").html(`${maxInBillions} US$bilhão`);
+             $("#minCircleVal").html(`US$${min} milhão`);
+             $("#maxCircleVal").html(`US$${maxInBillions} bilhão`);
 
 
              //GET DATES & populate slider
