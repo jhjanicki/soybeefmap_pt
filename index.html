@@ -3,7 +3,7 @@
    <head>
       <meta charset="utf-8">
       <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
-      <title>Investimentos chineses em soja e carne na América do Sul </title>
+      <title>Interesses chineses em carne e soja na América do Sul </title>
       <meta name="description" content="Chinese investments in South American soy and beef, China Dialogue">
       <meta name="author" content="Julia Janicki">
       <link href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css' rel='stylesheet' type='text/css'>
@@ -188,6 +188,8 @@
          }
          .mapboxgl-popup-close-button:hover,.mapboxgl-popup-close-button:active,.mapboxgl-popup-close-button:target{
            background:none !important;
+           border: none !important;
+           outline: none!important;
            color:#cfcfcf;
            transition: all 0.5s ease;
          }
@@ -548,7 +550,7 @@
             <span id="toggleConsole">
             <img src="./img/toggle.png" />
             </span>
-            <h1 id='title'> <a href="https://dialogochino.net/en/agriculture/36342-mapping-chinese-investments-south-american-soy-and-beef/">Investimentos chineses em soja e carne na América do Sul (2009-2020)</a></h1>
+            <h1 id='title'> <a href="https://dialogochino.net/pt-br/agricultura-pt-br/36342-mapeando-os-investimentos-chineses-em-soja-e-carne-bovina-na-america-latina/">Interesses chineses em carne e soja na América do Sul (2009-2020)</a></h1>
             <div class="itemWrapper" id="toggleWrapper">
                <div class="item">
                   <h2 id="product"><span id="soyTitle">SOJA</span> / <span id="beefTitle">CARNE</span></h2>
@@ -584,7 +586,7 @@
                <select class="custom-dropdown__select custom-dropdown__select--white item" id="dropdown">
                </select>
             </div>
-            <h2 id="chartTitle">Investimento acumulado no período (US$ bilhões)</h2>
+            <h2 id="chartTitle">Valor acumulado (US$ bilhões)</h2>
             <div id="chart">
             </div>
             <div class="instruction" id="legendInstruction">
@@ -609,7 +611,7 @@
                  </div>
               </div>
               <div class='row itemWrapper'>
-                 <h2 class=""> Investimento </h2>
+                 <h2 class=""> Valor </h2>
                  <div class="">
                     <img id="minCircle" class='item2' src="./img/legend4.svg" /img>
                     <p id="minCircleVal" class='item2'></p>
@@ -931,10 +933,8 @@
          var lastDate;
          var totalMonths;
          var filterMonth = ['>=', ['number', ['get', 'date2Parse']], Date.parse(new Date(2020-01))];
-         //var filterMonth2 = ['<=', ['number', ['get', 'date1Parse']], Date.parse(new Date(2007-02))];
          var filterProduct = ['==', ['string', ['get', 'product']], 'soja'];
          var filterYear = ['>=', ['number', ['get', 'date2Parse']], Date.parse(new Date(2020))];
-         //var filterYear2 = ['<=', ['number', ['get', 'date1Parse']], Date.parse(new Date(2007))];
          var min=1;
          var max=1;
          var minCircleSize = 8;
@@ -1064,13 +1064,11 @@
                });
 
                geoJsonData.features.forEach(function (feature) {
-                 //console.log(feature)
                    var obj = {};
                    obj['date']=feature.properties.date2;
                    allDates.push(obj);
                });
 
-             //  console.log(allDates);
                allDates.sort((a, b) => b.date - a.date)
 
                lastDate = formatDate(allDates[0].date);
@@ -1085,9 +1083,8 @@
 
                allYears = getAllYears(firstYear,finalYear);
 
-               $("#title").html(`<a href="https://dialogochino.net/en/agriculture/36342-mapping-chinese-investments-south-american-soy-and-beef/">Investimentos chineses em soja e carne na América do Sul (${firstYear}-${finalYear})</a>`);
+               $("#title").html(`<a href="https://dialogochino.net/pt-br/agricultura-pt-br/36342-mapeando-os-investimentos-chineses-em-soja-e-carne-bovina-na-america-latina/">Interesses chineses em carne e soja na América do Sul (${firstYear}-${finalYear})</a>`);
 
-               // console.log(allDates)
                totalMonths = calculateTotalMonths(firstDate,lastDate);
                $('#slider').prop('min', 1); // not sure why but if I do 0 here then it goes to 2009 January instead of Feb
                $('#slider').prop('max', totalMonths);
@@ -1118,11 +1115,6 @@
                  var dateSlider = e.target.value;
                  var dateSliderConv = convertValueToDate((parseInt(dateSlider)-1)); //new Date... why -1?
 
-                 // filterMonth = [   "all",
-                 //       ['>=', 'date2Parse', Date.parse(new Date(dateSliderConv))],
-                 //       ['<=', 'date1Parse', Date.parse(new Date(dateSliderConv))]
-                 // ];
-
                  var sliderYear = dateSliderConv.split("-")[0];
                  cumulativeData = cumulativeByYear(geoJsonData,firstDate, lastDate);
 
@@ -1132,9 +1124,6 @@
                  updateChart(sliderYear,cumulativeData,finalCumulative,finalYear);
 
                  filterMonth = ['<=', ['number', ['get', 'date1Parse']], Date.parse(new Date(dateSliderConv))];
-                 //filterMonth2 = ['>=', ['number', ['get', 'date2Parse']], Date.parse(new Date(dateSliderConv))];
-
-                 //console.log(dateSliderConv)
 
                  map.setFilter('soybeef', ['all', filterProduct, filterMonth]);
 
@@ -1143,14 +1132,11 @@
 
                  document.getElementById('active-date2').innerText = year+' '+month;
 
-                 //document.getElementById('active-date').innerText = dateSliderConv;
                }); //end slider input
              }else{ //if iphone then dropdown
 
                $("#dropdown").on("click change", function(e) {
-                  // $("#activeYear").html(e.target.value);
                   filterYear = ['<=', ['number', ['get', 'date1Parse']], Date.parse(new Date(e.target.value))];
-                  //filterYear2 = ['>=', ['number', ['get', 'date2Parse']], Date.parse(new Date(e.target.value))];
                   map.setFilter('soybeef', ['all', filterProduct, filterYear]);
               });
 
@@ -1369,21 +1355,13 @@
                yearCumulative.push(newObj);
              }
 
-             //console.log(yearCumulative)
-
              var totalValue = 0;
-
-             //console.log(data)
-             //console.log(newData)
 
              newData.forEach(function(d){
                //console.log(d);
                for(var i = 0; i <yearCumulative.length; i++){
-                 //console.log(+d.properties.start_time.split("-")[0])
-                 //console.log(yearCumulative[i].year)
+
                  if(+d.properties.start_time.split("-")[0]==yearCumulative[i].year){
-                   //console.log(yearCumulative[i].value);
-                   //console.log(d.properties.investment);
                    yearCumulative[i].value = yearCumulative[i].value+d.properties.investment;
                  }
                  if(i>0){
@@ -1392,9 +1370,6 @@
                    yearCumulative[i].cumulative = yearCumulative[i].value;
                  }
                }
-
-               //console.log(yearCumulative);
-
              });
 
              return yearCumulative;
@@ -1599,7 +1574,7 @@
 
                 popup = new mapboxgl.Popup({closeButton: true, closeOnClick: true, className:popupClass})
                     .setHTML('<h3 class="popupTitle">' + title + '</h3>'
-                    + '<h4><b> Empresa investidora: </b>' + investing_company + '</h4>'
+                    + '<h4><b> Investidor / credor: </b>' + investing_company + '</h4>'
                     + '<h4><b> Entidade local: </b>' + local_partner + '</h4>'
                     + '<h4><b> Projeto: </b>' + project_description + '</h4>'
                     + '<h4><b> Setor:</b> '  + sector + '</h4>'
@@ -1610,12 +1585,12 @@
 
                 popup = new mapboxgl.Popup({closeButton: true, closeOnClick: true, className:popupClass})
                     .setHTML('<h3 class="popupTitle">' + title + '</h3>'
-                    + '<h4><b> Empresa investidora: </b>' + investing_company + '</h4>'
+                    + '<h4><b> Investidor / credor: </b>' + investing_company + '</h4>'
                     + '<h4><b> Entidade local: </b>' + local_partner + '</h4>'
                     + '<h4><b> Projeto: </b>' + project_description + '</h4>'
                     + '<h4><b> Setor:</b> '  + sector + '</h4>'
                     + '<h4><b> Tipo:</b> '  + project_type + '</h4>'
-                    + '<h4><b> Invesitmento anunciado:</b> US$'  + investment_w_unit + '</h4>')
+                    + '<h4><b> Valor:</b> US$'  + investment_w_unit + '</h4>')
                     .setLngLat([latitude,longitude])
                     .addTo(map);
 
@@ -1627,7 +1602,7 @@
 
                 popup = new mapboxgl.Popup({closeButton: true, closeOnClick: true, className:popupClass})
                     .setHTML('<h3 class="popupTitle">' + title + '</h3>'
-                    + '<h4><b> Empresa investidora: </b>' + investing_company + '</h4>'
+                    + '<h4><b> Investidor / credor: </b>' + investing_company + '</h4>'
                     + '<h4><b> Entidade local: </b>' + local_partner + '</h4>'
                     + '<h4><b> Projeto: </b>' + project_description + '</h4>'
                     + '<h4><b> Setor:</b> '  + sector + '</h4>'
@@ -1640,13 +1615,12 @@
 
                 popup = new mapboxgl.Popup({closeButton: true, closeOnClick: true, className:popupClass})
                     .setHTML('<h3 class="popupTitle">' + title + '</h3>'
-                    + '<h4><b> Empresa investidora: </b>' + investing_company + '</h4>'
+                    + '<h4><b> Investidor / credor: </b>' + investing_company + '</h4>'
                     + '<h4><b> Entidade local: </b>' + local_partner + '</h4>'
                     + '<h4><b> Projeto: </b>' + project_description + '</h4>'
                     + '<h4><b> Setor:</b> '  + sector + '</h4>'
                     + '<h4><b> Tipo:</b> '  + project_type + '</h4>'
-                    // + '<h4><b> Investment:</b> US$'  + investment + ' million </h4>'
-                    + '<h4><b> Invesitmento anunciado:</b> US$'  + investment_w_unit + '</h4>'
+                    + '<h4><b> Valor:</b> US$'  + investment_w_unit + '</h4>'
                     + `<div class="button ${popupClass}"><a target="_blank" href="${url}">Ler mais</a></div>`)
                     .setLngLat([latitude,longitude])
                     .addTo(map);
@@ -1771,7 +1745,7 @@
 
                popup = new mapboxgl.Popup({closeButton: true, closeOnClick: true, className:popupClass})
                    .setHTML('<h3 class="popupTitle">' + title + '</h3>'
-                   + '<h4><b> Empresa investidora: </b>' + investing_company + '</h4>'
+                   + '<h4><b> Investidor / credor: </b>' + investing_company + '</h4>'
                    + '<h4><b> Entidade local: </b>' + local_partner + '</h4>'
                    + '<h4><b> Projeto: </b>' + project_description + '</h4>'
                    + '<h4><b> Setor:</b> '  + sector + '</h4>'
@@ -1782,13 +1756,13 @@
 
                popup = new mapboxgl.Popup({closeButton: true, closeOnClick: true, className:popupClass})
                    .setHTML('<h3 class="popupTitle">' + title + '</h3>'
-                   + '<h4><b> Empresa investidora: </b>' + investing_company + '</h4>'
+                   + '<h4><b> Investidor / credor: </b>' + investing_company + '</h4>'
                    + '<h4><b> Entidade local: </b>' + local_partner + '</h4>'
                    + '<h4><b> Projeto: </b>' + project_description + '</h4>'
                    + '<h4><b> Setor:</b> '  + sector + '</h4>'
                    + '<h4><b> Tipo:</b> '  + project_type + '</h4>'
                    // + '<h4><b> Investment:</b> US$'  + investment + ' million </h4>')
-                   + '<h4><b> Invesitmento anunciado:</b> US$'  + investment_w_unit + '</h4>')
+                   + '<h4><b> Valor:</b> US$'  + investment_w_unit + '</h4>')
                    .setLngLat([latitude,longitude])
                    .addTo(map);
 
@@ -1799,7 +1773,7 @@
              if(investment==""){
                popup = new mapboxgl.Popup({closeButton: true, closeOnClick: true, className:popupClass})
                    .setHTML('<h3 class="popupTitle">' + title + '</h3>'
-                   + '<h4><b> Empresa investidora: </b>' + investing_company + '</h4>'
+                   + '<h4><b> Investidor / credor: </b>' + investing_company + '</h4>'
                    + '<h4><b> Entidade local: </b>' + local_partner + '</h4>'
                    + '<h4><b> Projeto: </b>' + project_description + '</h4>'
                    + '<h4><b> Setor:</b> '  + sector + '</h4>'
@@ -1810,13 +1784,12 @@
              }else{
                popup = new mapboxgl.Popup({closeButton: true, closeOnClick: true, className:popupClass})
                    .setHTML('<h3 class="popupTitle">' + title + '</h3>'
-                   + '<h4><b> Empresa investidora: </b>' + investing_company + '</h4>'
+                   + '<h4><b> Investidor / credor: </b>' + investing_company + '</h4>'
                    + '<h4><b> Entidade local: </b>' + local_partner + '</h4>'
                    + '<h4><b> Projeto: </b>' + project_description + '</h4>'
                    + '<h4><b> Setor:</b> '  + sector + '</h4>'
                    + '<h4><b> Tipo:</b> '  + project_type + '</h4>'
-                   // + '<h4><b> Investment:</b> US$'  + investment + ' million </h4>'
-                   + '<h4><b> Invesitmento anunciado:</b> US$'  + investment_w_unit + '</h4>'
+                   + '<h4><b> Valor:</b> US$'  + investment_w_unit + '</h4>'
                    + `<div class="button ${popupClass}"><a target="_blank" href="${url}">Ler mais</a></div>`)
                    .setLngLat([latitude,longitude])
                    .addTo(map);
